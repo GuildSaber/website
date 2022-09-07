@@ -19,16 +19,6 @@ export default function Navbar() {
 							Guilds
 						</p>
 					</Link>
-					<Link href="/maps">
-						<p className="text-slate-400 hover:text-white transition-all duration-200 ease-in-out cursor-pointer">
-							Maps
-						</p>
-					</Link>
-					<Link href="/passes">
-						<p className="text-slate-400 hover:text-white transition-all duration-200 ease-in-out cursor-pointer">
-							Passes
-						</p>
-					</Link>
 					<Link href="/login">
 						<p className="text-slate-400 hover:text-white transition-all duration-200 ease-in-out cursor-pointer">
 							Login
