@@ -12,12 +12,16 @@ function MyApp({ Component, pageProps }) {
 				<link rel="manifest" href="/favicon/site.webmanifest" />
 				<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#048fff" />
 				<link rel="shortcut icon" href="/favicon/favicon.ico" />
-				<meta name="msapplication-TileColor" content="#048fff" />
+				<meta name="msapplication-TileColor" content="#121212" />
 				<meta name="msapplication-config" content="/favicon/browserconfig.xml" />
 				<meta name="theme-color" content="#ffffff" />
 			</Head>
 			<Navbar />
-			<Component {...pageProps} />
+			<div className="ml-8 mr-8 sm:ml-16 sm:mr-16 mt-16">
+				<div className="max-w-screen-2xl m-auto">
+					<Component {...pageProps} />
+				</div>
+			</div>
 		</>
 	);
 }

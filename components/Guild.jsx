@@ -2,25 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 
 function Guild(props) {
-  // if banner not available, use guild color as background
-  let background = {
-    backgroundColor: `rgba(${props.Color.R},${props.Color.G},${props.Color.B},.7)`,
-  };
-  if (props.Banner) {
-    background = { backgroundImage: `url(${props.Banner})` };
-  }
 
   return (
     <Link href={`/guild/${props.ID}`}>
-      <div className={"hover:scale-[1.02] rounded-xl bg-cover bg-center overflow-hidden cursor-pointer"} style={background}>
-        <div className={"flex gap-6 p-4 backdrop-blur-md"}>
-          {/* <img src={props.Logo} alt={props.Name} className="h-full rounded-lg" /> */}
-          <Image src={`${props.Logo}`} alt={`${props.Name}`} layout="fixed" width="125px" height="125px" className="h-full rounded-lg" />
-          <div className="flex flex-col gap-2">
+      <div className={"relative scale-[1] hover:scale-[1.02] rounded-xl overflow-hidden cursor-pointer"}
+        style={{ backgroundColor: `rgb(${props.Color.R},${props.Color.G},${props.Color.B})`, }}>
+        <div className={"flex gap-6 p-2 sm:p-4 z-20 backdrop-blur-md"}>
+          <span className="w-16 h-16 sm:w-32 sm:h-32 relative">
+            <Image src={`${props.Logo}`} alt={`${props.Name}`} layout="fill" objectFit="cover" className="h-full rounded-lg" />
+          </span>
+          <div className="flex justify-center sm:justify-start flex-col gap-2">
             <h1 className="text-xl font-semibold">{props.Name}</h1>
-            <p>{props.Description}</p>
+            <p className="hidden sm:block">{props.Description}</p>
           </div>
         </div>
+        {props.Banner &&
+          <div className="w-full h-full top-0 left-0 absolute -z-10 bg-cover bg-center bg-blend-soft-light opacity-50"
+            style={{ backgroundImage: `url(${props.Banner})` }} />
+        }
       </div>
     </Link>
   );
