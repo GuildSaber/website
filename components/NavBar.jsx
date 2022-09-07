@@ -15,12 +15,12 @@ export default function Navbar() {
 				</Link>
 				<div className="h-full flex items-center gap-14">
 					<Link href="/guilds">
-						<p className="text-slate-400 hover:text-white transition-all duration-200 ease-in-out cursor-pointer">
+						<p className="text-tertiary hover:text-secondary transition-all duration-200 ease-in-out cursor-pointer">
 							Guilds
 						</p>
 					</Link>
 					<Link href="/login">
-						<p className="text-slate-400 hover:text-white transition-all duration-200 ease-in-out cursor-pointer">
+						<p className="text-tertiary hover:text-secondary transition-all duration-200 ease-in-out cursor-pointer">
 							Login
 						</p>
 					</Link>
