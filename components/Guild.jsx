@@ -5,14 +5,12 @@ function Guild(props) {
 	return (
 		<Link href={`/guild/${props.ID}`}>
 			<div
-				className={
-					'relative scale-[1] hover:scale-[1.02] rounded-xl overflow-hidden cursor-pointer transition-all duration-200 ease-in-out'
-				}
+				className="relative scale-[1] hover:scale-[1.02] rounded-xl overflow-hidden cursor-pointer transition-all duration-200 ease-in-out"
 				style={{
 					backgroundColor: `rgb(${props.Color.R},${props.Color.G},${props.Color.B})`,
 				}}
 			>
-				<div className={'flex gap-6 p-2 sm:p-4 z-20 backdrop-blur-md'}>
+				<div className="flex gap-6 p-2 sm:p-4 z-20 backdrop-blur-md">
 					<span className="w-16 h-16 sm:w-32 sm:h-32 relative aspect-square">
 						<Image
 							src={`${props.Logo}`}
