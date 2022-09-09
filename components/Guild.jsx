@@ -6,7 +6,7 @@ function Guild(props) {
 		<Link href={`/guild/${props.ID}`}>
 			<div
 				className={
-					'relative scale-[1] hover:scale-[1.02] rounded-xl overflow-hidden cursor-pointer'
+					'relative scale-[1] hover:scale-[1.02] rounded-xl overflow-hidden cursor-pointer transition-all duration-200 ease-in-out'
 				}
 				style={{
 					backgroundColor: `rgb(${props.Color.R},${props.Color.G},${props.Color.B})`,
