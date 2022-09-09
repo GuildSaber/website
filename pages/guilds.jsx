@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Guild from '../components/Guild';
+import Guild from '../components/guild';
 
 function Guilds({ guilds, count }) {
 	const [loadedGuilds, setLoadedGuilds] = useState([]);
