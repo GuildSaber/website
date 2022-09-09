@@ -1,7 +1,5 @@
 function login() {
-  return (
-    <div>TODO: Discord Login</div>
-  );
+	return <div>TODO: Discord Login</div>;
 }
 
 export default login;

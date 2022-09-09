@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Navbar() {
 	return (
@@ -7,7 +7,13 @@ export default function Navbar() {
 			<div className="flex flex-col sm:flex-row max-w-screen-2xl items-center justify-between m-auto mt-6 mb-6 gap-4 sm:gap-14">
 				<Link href="/">
 					<div className="flex justify-center items-center gap-3 cursor-pointer">
-						<Image src="/LOGO.svg" alt="GuildSaber" width="40px" height="40px" layout="fixed" />
+						<Image
+							src="/LOGO.svg"
+							alt="GuildSaber"
+							width="40px"
+							height="40px"
+							layout="fixed"
+						/>
 						<h1 className="text-xl">
 							<strong>Guild</strong>Saber
 						</h1>

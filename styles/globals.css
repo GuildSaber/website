@@ -8,15 +8,19 @@
 body {
 	font-family: 'Poppins', sans-serif;
 	@apply text-white;
-	background-color: #26272F;
+	background-color: #26272f;
 }
 
 @layer components {
 	.btn-primary {
-		@apply hover:scale-[1.05] font-bold text-lg bg-primary pt-1 pb-1 pl-4 pr-4 rounded-md cursor-pointer flex items-center justify-between gap-3;
+		@apply hover:scale-[1.05] font-bold text-lg bg-primary pt-1 pb-1 pl-4 pr-4 rounded-md cursor-pointer flex items-center justify-between gap-3 transition-all duration-200 ease-in-out;
 	}
 
 	.btn-secondary {
-		@apply hover:scale-[1.05] bg-primary pt-2 pb-2 pl-3 pr-3 rounded-md cursor-pointer flex items-center justify-between gap-2 whitespace-nowrap;
+		@apply hover:scale-[1.05] bg-primary pt-2 pb-2 pl-3 pr-3 rounded-md cursor-pointer flex items-center justify-between gap-2 whitespace-nowrap transition-all duration-200 ease-in-out;
 	}
+}
+
+.border-rad-4 {
+	border-radius: 4px;
 }

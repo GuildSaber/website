@@ -1,6 +1,6 @@
-import Head from "next/head";
-import Navbar from "../components/NavBar";
-import "../styles/globals.css";
+import Head from 'next/head';
+import Navbar from '../components/NavBar';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
 	return (
