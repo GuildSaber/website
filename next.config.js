@@ -5,6 +5,12 @@ const nextConfig = {
 	images: {
 		domains: ["bsdr.fdom.eu"],
 	},
+	experimental: {
+		images:
+		{
+			allowFutureImage: true
+		}
+	}
 };
 
 module.exports = nextConfig;
