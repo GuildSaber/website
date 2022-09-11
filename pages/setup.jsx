@@ -16,11 +16,7 @@ function setup() {
 
 	return (
 		<div>
-			<Step
-				stepIndex="1"
-				stepName="Invite the discord bot to your server"
-				stepAction={stepOne}
-			/>
+			<Step stepIndex="1" stepName="Invite the discord bot to your server" stepAction={stepOne} />
 			<Step stepIndex="2" stepName="Run the following Commands" stepAction={stepTwo} />
 		</div>
 	);

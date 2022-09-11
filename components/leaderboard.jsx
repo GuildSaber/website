@@ -34,7 +34,7 @@ function Leaderboard(props) {
 								/>
 								<div className="w-full mx-2">{entry.Name}</div>
 								<div className="w-fit mx-2">
-									<p className="w-max">{`${entry.ModifiedScore} ${entry.RankData[0].PointsName}`}</p>
+									<p className="w-max">{`${entry.ModifiedScore.toLocaleString()} ${entry.RankData[0].PointsName}`}</p>
 								</div>
 							</div>
 							<hr />

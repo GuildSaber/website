@@ -30,7 +30,7 @@ function Guilds({ guilds, count }) {
 }
 
 export async function getServerSideProps() {
-	let data = await (await fetch('https://api.guildsaber.com/guild/data/all')).json();
+	let data = await (await fetch('https://api.guildsaber.com/guilds/data/all')).json();
 
 	return {
 		props: {

@@ -42,7 +42,7 @@ function edit(props) {
 
 export async function getServerSideProps(context) {
 	let ID = context.params.guildId;
-	let data = await (await fetch(`https://api.guildsaber.com/guild/data/${ID}/true`)).json();
+	let data = await (await fetch(`https://api.guildsaber.com/guilds/data/by-id/${ID}/true`)).json();
 
 	return {
 		props: {

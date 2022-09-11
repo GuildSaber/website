@@ -9,7 +9,12 @@ module.exports = {
 				tertiary: "#A8A8AB",
 				primarybg: "#26272F",
 				secondarybg: "#2A2B35",
-				tertiarybg: "#251F26"
+				tertiarybg: "#251F26",
+				easy: "#3CB371",
+				normal: "#59B0F4",
+				hard: "#FF6347",
+				expert: "#BF2A42",
+				expertplus: "#8F48DB"
 			}
 		}
 	},
