@@ -3,7 +3,7 @@ const nextConfig = {
 	reactStrictMode: true,
 	swcMinify: true,
 	images: {
-		domains: ['bsdr.fdom.eu', 'cdn.discordapp.com'],
+		domains: ['bsdr.fdom.eu', 'cdn.scoresaber.com'],
 	},
 };
 
