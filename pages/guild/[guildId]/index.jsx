@@ -4,7 +4,7 @@ import Level from '../../../components/level';
 import Map from '../../../components/map';
 
 function Guild(props) {
-	const [selectedLevel, setSelectedLevel] = useState(1);
+	const [selectedLevel, setSelectedLevel] = useState(props.levels[0].ID);
 	const [maps, setMaps] = useState([]);
 
 	const changeLevel = (id) => {
@@ -42,7 +42,7 @@ function Guild(props) {
 					<div className="flex gap-3">
 						<Link href={`/guild/${props.guild.ID}/edit`}>
 							<button className="btn-secondary">
-								<i className="fas fa-pen"></i>
+								<i className="fa-solid fa-pen"></i>
 								<p>Edit Guild</p>
 							</button>
 						</Link>
@@ -52,13 +52,15 @@ function Guild(props) {
 			<div className="grid grid-cols-[33%_auto] gap-3 mt-4">
 				<div className="bg-[#323340] w-full h-full p-5 rounded-xl">
 					<h3 className="mb-3">Level</h3>
-					<div className="flex flex-col gap-3 max-h-[40rem] overflow-auto pr-4">
+					<div className="guild-container max-h-[43rem]">
 						{props.levels.map((level) => {
 							return (
 								<button
 									key={level.ID}
 									onClick={() => changeLevel(level.ID)}
-									className="bg-[#424457] rounded-md p-2 cursor-pointer text-left"
+									className={`bg-[#424457] hover:bg-[#525674] rounded-md p-2 cursor-pointer text-left ${
+										level.ID === selectedLevel && 'bg-primary hover:bg-primary font-semibold'
+									}`}
 								>
 									<Level {...level} />
 								</button>
@@ -67,11 +69,29 @@ function Guild(props) {
 					</div>
 				</div>
 				<div className="bg-[#323340] w-full h-full p-5 rounded-xl flex flex-col gap-3">
-					<h3>Maps</h3>
-					<div className="flex flex-col gap-3 max-h-[40rem] overflow-auto pr-4">
+					<div className="flex justify-between items-center">
+						<h3>Maps in {props.levels.find((l) => l.ID === selectedLevel).Name}</h3>
+						<div className="flex gap-3 items-center">
+							<p className="text-tertiary text-sm">*Value at 90%</p>
+							<button className="btn-tertiary">
+								<i className="fa-solid fa-list-music"></i>
+								<p>Playlist</p>
+							</button>
+						</div>
+					</div>
+					<div className="guild-container">
 						{maps.map((map) => {
 							return <Map key={map.MapID} {...map} />;
 						})}
+					</div>
+					<div className="flex gap-3 justify-center items-center">
+						<button className="btn-tertiary" disabled>
+							<i className="fa-solid fa-angle-left"></i>
+						</button>
+						<p>Page 1 / 10</p>
+						<button className="btn-tertiary">
+							<i className="fa-solid fa-angle-right"></i>
+						</button>
 					</div>
 				</div>
 			</div>

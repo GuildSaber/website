@@ -14,9 +14,11 @@ module.exports = {
 				normal: "#59B0F4",
 				hard: "#FF6347",
 				expert: "#BF2A42",
-				expertplus: "#8F48DB"
+				expertplus: "#8F48DB",
 			}
 		}
 	},
-	plugins: [],
+	plugins: [
+		require('tailwind-scrollbar')({ nocompatible: true }),
+	]
 };

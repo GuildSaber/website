@@ -1,75 +1,139 @@
-import { useState, useEffect } from 'react';
 import Image from 'next/future/image';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import ReactTimeAgo from 'react-time-ago';
 
 function Map(props) {
-	const [mapDetails, setMapDetails] = useState({});
+	let cover = `https://eu.cdn.beatsaver.com/${props.BeatSaverHash}.jpg`;
 
 	const IconButton = ({ href, icon }) => {
 		return (
-			<a
-				href={href}
-				className="bg-primary pl-2 pr-2 pt-1 pb-1 w-fit h-fit rounded-md"
-				target="_blank"
-				rel="noreferrer noopener"
-			>
-				<button>
-					<i className={icon}></i>
-				</button>
-			</a>
-		);
-	};
-
-	const Difficulty = ({ diff }) => {
-		return (
-			<div className={`bg-${diff.toLowerCase()} w-fit pl-1 pr-1 rounded-md text-sm`}>
-				<p>{diff}</p>
-			</div>
-		);
-	};
-
-	useEffect(() => {
-		(async () => {
-			let mapData = await (
-				await fetch(`https://api.beatsaver.com/maps/hash/${props.BeatSaverHash}`)
-			).json();
-			setMapDetails(mapData.versions[0]);
-		})();
-	}, [setMapDetails, props.BeatSaverHash]);
-
-	return (
-		<div className="bg-[#424457] flex gap-3 p-3 rounded-xl">
-			<Image
-				src={mapDetails.coverURL}
-				alt={props.MapName}
-				width="100"
-				height="100"
-				className="rounded-md"
-			></Image>
-			<div className="flex flex-col justify-center">
-				<p>{props.MapAuthorName}</p>
-				<p className="text-xl font-semibold">{props.MapName}</p>
-				<p>{props.Mapper}</p>
-				<Difficulty diff={props.Difficulties[0].BeatSaverDifficultyName} />
-			</div>
-			{/* <div className="grid grid-cols-3 place-items-center">
-				<IconButton href="https://beatsaver.com" icon="fa fa-twitch" />
-				<IconButton href="https://beatsaver.com" icon="fas fa-play" />
-				<IconButton href="https://beatsaver.com" icon="fas fa-medal" />
-				<IconButton href="https://beatsaver.com" icon="fas fa-cloud-download-alt" />
-				<IconButton href="https://beatsaver.com" icon="fas fa-download" />
+			<div className="btn-icon">
 				<a
-					href={`https://beatsaver.com/${props.BeatSaverID}`}
-					className="bg-primary pl-2 pr-2 pt-1 pb-1 w-fit h-fit rounded-md"
+					href={href}
 					target="_blank"
 					rel="noreferrer noopener"
+					className="flex items-center justify-center"
 				>
-					<button className="invert flex w-full h-full">
-						<Image src="/beatsaver.svg" alt="BeatSaver" height={20} width={20} />
+					<button>
+						{icon.includes('beatsaver') ? (
+							<Image src={icon} alt={icon} width={20} height={20} className="invert" />
+						) : (
+							<i className={`${icon} scale-[1.2]`}></i>
+						)}
 					</button>
 				</a>
-			</div> */}
+			</div>
+		);
+	};
+
+	return (
+		<div className="hover:bg-[#424457] relative scale-[1] rounded-xl">
+			<div
+				className="w-full h-full top-0 left-0 absolute -z-10 bg-cover bg-center bg-blend-soft-light opacity-20 rounded-xl"
+				style={{ backgroundImage: `url(${cover})` }}
+			/>
+			<div className="flex gap-3 justify-between p-3 rounded-xl backdrop-blur-md">
+				<div className="flex gap-3">
+					<div className="aspect-square min-h-[100px]">
+						<Image
+							src={cover}
+							alt={props.MapName}
+							width="100"
+							height="100"
+							className="rounded-md"
+						/>
+					</div>
+					<div className="flex flex-col justify-center text-sm">
+						{props.MapAuthorName.toLowerCase() !== props.Mapper.toLowerCase() && <p>{props.MapAuthorName}</p>}
+						<p className="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-[350px]">
+							{props.MapName}
+						</p>
+						<p>{props.Mapper}</p>
+						<p
+							className="w-fit px-1 py-[.1rem] rounded-md text-xs mt-1" style={{backgroundColor: diffColor(props.Difficulties[0].BeatSaverDifficultyName).color}}
+						>
+							{diffColor(props.Difficulties[0].BeatSaverDifficultyName).name}
+						</p>
+					</div>
+					<div className="text-xs text-tertiary text-right">
+						<p>
+							<ReactTimeAgo date={props.UnixUploadedTime * 1000} locale="en-US" />
+						</p>
+						<p>{props.BPM} BPM</p>
+						<p>{convertTime(props.Duration)}</p>
+						<p>{props.Difficulties[0].NoteCount} Notes</p>
+						<p>{props.Difficulties[0].NotesPerSecond} NPS</p>
+						<p>NJS {props.Difficulties[0].NoteJumpSpeed}</p>
+					</div>
+				</div>
+				<div className="grid grid-cols-3 place-items-center my-5 mx-4 gap-1">
+					<CopyToClipboard text={`!bsr ${props.BeatSaverID}`} className="btn-icon">
+						<button>
+							<i className="fa-brands fa-twitch scale-[1.2]"></i>
+						</button>
+					</CopyToClipboard>
+					<IconButton
+						href={`https://skystudioapps.com/bs-viewer/?id=${props.BeatSaverID}`}
+						icon="fa-solid fa-play"
+					/>
+					{props.Difficulties[0].HaveBestReplay && (
+						<IconButton href={props.Difficulties[0].ReplayViewerURL} icon="fa-solid fa-medal" />
+					)}
+					<IconButton
+						href={`beatsaver://${props.BeatSaverID}`}
+						icon="fa-solid fa-cloud-arrow-down"
+					/>
+					<IconButton
+						href={`https://r2cdn.beatsaver.com/${props.BeatSaverHash}.zip`}
+						icon="fa-solid fa-download"
+					/>
+					<IconButton
+						href={`https://beatsaver.com/maps/${props.BeatSaverID}`}
+						icon="/beatsaver.svg"
+					/>
+				</div>
+			</div>
 		</div>
 	);
+}
+
+function convertTime(duration) {
+	return `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}`;
+}
+
+function diffColor(diff) {
+	switch (diff.toLowerCase()) {
+		case "easy": {
+			return {
+				name: "Easy",
+				color: "#3CB371"
+			};
+		}
+		case "normal": {
+			return {
+				name: "Normal",
+				color: "#59B0F4"
+			};
+		}
+		case "hard": {
+			return {
+				name: "Hard",
+				color: "#FF6347"
+			};
+		}
+		case "expert": {
+			return {
+				name: "Expert",
+				color: "#BF2A42"
+			};
+		}
+		case "expertplus": {
+			return {
+				name: "Expert+",
+				color: "#8F48DB"
+			};
+		}
+	}
 }
 
 export default Map;
