@@ -34,7 +34,9 @@ function Leaderboard(props) {
 								/>
 								<div className="w-full mx-2">{entry.Name}</div>
 								<div className="w-fit mx-2">
-									<p className="w-max">{`${entry.ModifiedScore.toLocaleString()} ${entry.RankData[0].PointsName}`}</p>
+									<p className="w-max">{`${entry.ModifiedScore.toLocaleString()} ${
+										entry.RankData[0].PointsName
+									}`}</p>
 								</div>
 							</div>
 							<hr />
@@ -45,18 +47,22 @@ function Leaderboard(props) {
 			<div className="flex">
 				<div className="w-1/2">
 					<button
-						disabled={false}
-						className="text-white border-2 border-white border-opacity-25 rounded-xl px-2 py-1 mr-2 transition duration-100 hover:border-primary active:bg-primary disabled:opacity-50 disabled:border-gray-600"
-						onClick={() => {}}
+						disabled={props.pageBack.disabled}
+						className="text-white border-2 border-white border-opacity-25 rounded-xl px-2 py-1 mr-2 transition duration-100 enabled:hover:border-primary enabled:active:bg-primary disabled:opacity-50 disabled:border-gray-600 disabled:cursor-not-allowed"
+						onClick={() => {
+							props.pageBack.pageBackFunction();
+						}}
 					>
 						<p className="mx-1">{'<'}</p>
 					</button>
 				</div>
 				<div className="w-1/2 text-right">
 					<button
-						disabled={false}
-						className="text-white border-2 border-white border-opacity-25 rounded-xl px-2 py-1 mr-2 transition duration-100 hover:border-primary active:bg-primary disabled:opacity-50 disabled:border-gray-600"
-						onClick={() => {}}
+						disabled={props.pageForward.disabled}
+						className="text-white border-2 border-white border-opacity-25 rounded-xl px-2 py-1 mr-2 transition duration-100 enabled:hover:border-primary enabled:active:bg-primary disabled:opacity-50 disabled:border-gray-600 disabled:cursor-not-allowed"
+						onClick={() => {
+							props.pageForward.pageForwardFunction();
+						}}
 					>
 						<p className="mx-1">{'>'}</p>
 					</button>

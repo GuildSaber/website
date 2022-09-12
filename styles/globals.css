@@ -37,3 +37,8 @@ body {
 .border-rad-4 {
 	border-radius: 4px;
 }
+
+.image-gradient-fade-l {
+	/* also apply bg-gray-800 to parent element */
+	mask-image: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+}

@@ -9,10 +9,12 @@ function Dev() {
 	const [pageIndex, setPageIndex] = useState(1);
 	const [pageBackDisabled, setpageBackDisabled] = useState(true);
 	const [pageForwardDisabled, setpageForwardDisabled] = useState(false);
+
 	const { data, error } = useSWR(
 		`https://api.guildsaber.com/maps/leaderboard/by-hash/C4CCC41A43BB15F252B025F03BCE6F9C1DBBDBEB/9?guild-id=1&page=${pageIndex}`,
 		fetcher
 	);
+
 	if (!data) {
 		return <Spinner />;
 	}
@@ -55,8 +57,8 @@ function Dev() {
 				{ disabled: true, name: 'Acc', onClick: AccButtonHandler },
 				{ disabled: false, name: 'CPP', onClick: CPPButtonHandler },
 			]}
-			pageBack={{ pageBackFunction: PageBack, disabled: false }}
-			pageForward={{ pageForwardFunction: PageForward, disabled: false }}
+			pageBack={{ pageBackFunction: PageBack, disabled: pageBackDisabled }}
+			pageForward={{ pageForwardFunction: PageForward, disabled: pageForwardDisabled }}
 		/>
 	);
 }
