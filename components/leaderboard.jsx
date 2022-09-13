@@ -6,6 +6,7 @@ function Leaderboard(props) {
 			{props.buttons.map((entry, index) => {
 				return (
 					<button
+						id={index}
 						key={index}
 						disabled={entry.disabled}
 						className="text-white border-2 border-white border-opacity-25 rounded-xl px-2 py-1 mr-2 transition duration-100 hover:border-primary enabled:active:bg-primary focus:border-primary disabled:opacity-50 disabled:border-gray-600 disabled:cursor-not-allowed"
@@ -18,11 +19,8 @@ function Leaderboard(props) {
 			<div className="my-2 w-full">
 				{props.entries.map((entry, index) => {
 					return (
-						<>
-							<div
-								className="flex py-2 items-center hover:bg-white hover:bg-opacity-10 cursor-pointer transition-all duration-100 ease-in-out"
-								key={index}
-							>
+						<div key={index}>
+							<div className="flex py-2 items-center hover:bg-white hover:bg-opacity-10 cursor-pointer transition-all duration-100 ease-in-out">
 								<div className="w-[5%] mx-2">#{entry.Rank}</div>
 								<div className="w-auto mx-1">{entry.Country}</div>
 								<Image
@@ -34,13 +32,15 @@ function Leaderboard(props) {
 								/>
 								<div className="w-full mx-2">{entry.Name}</div>
 								<div className="w-fit mx-2">
-									<p className="w-max">{`${entry.ModifiedScore.toLocaleString()} ${
-										entry.RankData[0].PointsName
+									<p className="w-max">{`${entry.RankData[
+										props.type
+									].Points.toLocaleString()} ${
+										entry.RankData[props.type].PointsName
 									}`}</p>
 								</div>
 							</div>
 							<hr />
-						</>
+						</div>
 					);
 				})}
 			</div>
