@@ -13,10 +13,10 @@ function Map(props) {
 					href={href}
 					target="_blank"
 					rel="noreferrer noopener"
-					className="flex items-center justify-center mx-2 my-1"
+					className="flex items-center justify-center mx-1"
 				>
 					{icon.includes('beatsaver') ? (
-						<Image src={icon} alt={icon} width={20} height={20} className="invert" />
+						<Image src={icon} alt={icon} width={20} height={20} className="invert scale-[1.3]" />
 					) : (
 						<i className={`${icon} scale-[1.2]`}></i>
 					)}
@@ -32,45 +32,61 @@ function Map(props) {
 				style={{ backgroundImage: `url(${cover})` }}
 			/>
 			<div className="flex gap-3 justify-between p-3 rounded-xl backdrop-blur-sm">
-				<Link href="/">
+				<Link href={`/leaderboard/${props.Difficulties[0].DifficultyID}`}>
 					<div className="flex gap-3 w-full">
-						<div className="aspect-square min-h-[100px] my-auto">
-							<Image
-								src={cover}
-								alt={props.MapName}
-								width="150"
-								height="150"
-								className="rounded-md"
-							/>
+						<div className="flex gap-3 w-full">
+							<div className="aspect-square min-h-[100px] my-auto">
+								<Image
+									src={cover}
+									alt={props.MapName}
+									width="100"
+									height="100"
+									className="rounded-md"
+								/>
+							</div>
+							<div className="flex flex-col justify-center text-sm">
+								{props.MapAuthorName.toLowerCase() !== props.Mapper.toLowerCase() && (
+									<p>{props.MapAuthorName}</p>
+								)}
+								<p className="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-[350px]">
+									{props.MapName}
+								</p>
+								<p>{props.Mapper}</p>
+								<p
+									className="w-fit px-1 py-[.1rem] rounded-md text-xs mt-1"
+									style={{
+										backgroundColor: diffColor(props.Difficulties[0].BeatSaverDifficultyName).color,
+									}}
+								>
+									{diffColor(props.Difficulties[0].BeatSaverDifficultyName).name}
+								</p>
+							</div>
 						</div>
-						<div className="flex flex-col justify-center text-sm">
-							{props.MapAuthorName.toLowerCase() !== props.Mapper.toLowerCase() && (
-								<p>{props.MapAuthorName}</p>
-							)}
-							<p className="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-[350px]">
-								{props.MapName}
-							</p>
-							<p>{props.Mapper}</p>
-							<p
-								className="w-fit px-1 py-[.1rem] rounded-md text-xs mt-1"
-								style={{
-									backgroundColor: diffColor(
-										props.Difficulties[0].BeatSaverDifficultyName
-									).color,
-								}}
-							>
-								{diffColor(props.Difficulties[0].BeatSaverDifficultyName).name}
-							</p>
-						</div>
-						<div className="text-xs text-tertiary text-right">
-							<p>
-								<ReactTimeAgo date={props.UnixUploadedTime * 1000} locale="en-US" />
-							</p>
-							<p>{props.BPM} BPM</p>
-							<p>{convertTime(props.Duration)}</p>
-							<p>{props.Difficulties[0].NoteCount} Notes</p>
-							<p>{props.Difficulties[0].NotesPerSecond} NPS</p>
-							<p>NJS {props.Difficulties[0].NoteJumpSpeed}</p>
+						<div className="flex flex-col justify-between">
+							<div className="text-center">
+								{props.Pass_Enabled && (
+									<p>
+										{(props.Pass_PointMultiplier * props.Difficulties[0].PassWeight).toFixed(3)}{' '}
+										{props.Pass_PointName}
+									</p>
+								)}
+								{props.Acc_Enabled && (
+									<p>
+										{(90 * props.Acc_PointMultiplier * props.Difficulties[0].AccWeight).toFixed(3)}{' '}
+										{props.Acc_PointName}*
+									</p>
+								)}
+							</div>
+							<div className="grid grid-cols-3 text-xs text-tertiary text-center gap-x-12 whitespace-nowrap">
+								<p>
+									<ReactTimeAgo date={props.UnixUploadedTime * 1000} locale="en-US" />
+								</p>
+								<p>{props.BPM} BPM</p>
+								<p>{convertTime(props.Duration)}</p>
+								<p>{props.Difficulties[0].NoteCount} Notes</p>
+								<p>{props.Difficulties[0].NotesPerSecond.toFixed(2)} NPS</p>
+								<p>NJS {props.Difficulties[0].NoteJumpSpeed}</p>
+							</div>
 						</div>
 					</div>
 				</Link>
@@ -84,11 +100,8 @@ function Map(props) {
 						href={`https://skystudioapps.com/bs-viewer/?id=${props.BeatSaverID}`}
 						icon="fa-solid fa-play"
 					/>
-					{props.Difficulties[0].HaveBestReplay && (
-						<IconButton
-							href={props.Difficulties[0].ReplayViewerURL}
-							icon="fa-solid fa-medal"
-						/>
+					{props.Difficulties[0].HasBestReplay && (
+						<IconButton href={props.Difficulties[0].ReplayViewerURL} icon="fa-solid fa-medal" />
 					)}
 					<IconButton
 						href={`beatsaver://${props.BeatSaverID}`}

@@ -68,21 +68,29 @@ function Guild(props) {
 						})}
 					</div>
 				</div>
-				<div className="bg-[#323340] w-full h-full p-5 rounded-xl flex flex-col gap-3">
-					<div className="flex justify-between items-center">
-						<h3>Maps in {props.levels.find((l) => l.ID === selectedLevel).Name}</h3>
-						<div className="flex gap-3 items-center">
-							<p className="text-tertiary text-sm">*Value at 90%</p>
-							<button className="btn-tertiary">
-								<i className="fa-solid fa-list-music"></i>
-								<p>Playlist</p>
-							</button>
+				<div className="bg-[#323340] w-full h-full p-5 rounded-xl flex flex-col justify-between gap-3">
+					<div className="flex flex-col gap-3">
+						<div className="flex justify-between items-center">
+							<h3>Maps in {props.levels.find((l) => l.ID === selectedLevel).Name}</h3>
+							<div className="flex gap-3 items-center">
+								<p className="text-tertiary text-sm">*Value at 90%</p>
+								<button className="btn-tertiary">
+									<i className="fa-solid fa-list-music"></i>
+									<p>Playlist</p>
+								</button>
+							</div>
 						</div>
-					</div>
-					<div className="guild-container">
-						{maps.map((map) => {
-							return <Map key={map.MapID} {...map} />;
-						})}
+						<div className="guild-container">
+							{maps.map((map) => {
+								return (
+									<Map
+										key={map.MapID}
+										{...map}
+										{...props.config}
+									/>
+								);
+							})}
+						</div>
 					</div>
 					<div className="flex gap-3 justify-center items-center">
 						<button className="btn-tertiary" disabled>
@@ -102,7 +110,7 @@ function Guild(props) {
 export async function getServerSideProps(context) {
 	let ID = context.params.guildId;
 	let guildData = await (
-		await fetch(`https://api.guildsaber.com/guilds/data/by-id/${ID}/false`)
+		await fetch(`https://api.guildsaber.com/guilds/data/by-id/${ID}/true`)
 	).json();
 	let levelData = await (
 		await fetch(`https://api.guildsaber.com/levels/data/all?guild-id=${ID}`)
@@ -111,6 +119,7 @@ export async function getServerSideProps(context) {
 	return {
 		props: {
 			guild: guildData.Guild,
+			config: guildData.GuildConfig,
 			levels: levelData,
 		},
 	};

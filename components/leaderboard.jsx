@@ -1,4 +1,5 @@
 import Image from 'next/future/image';
+import ReactTimeAgo from 'react-time-ago';
 
 function Leaderboard(props) {
 	return (
@@ -16,33 +17,75 @@ function Leaderboard(props) {
 					</button>
 				);
 			})}
-			<div className="my-2 w-full">
-				{props.entries.map((entry, index) => {
-					return (
-						<div key={index}>
-							<div className="flex py-2 items-center hover:bg-white hover:bg-opacity-10 cursor-pointer transition-all duration-100 ease-in-out">
-								<div className="w-[5%] mx-2">#{entry.Rank}</div>
-								<div className="w-auto mx-1">{entry.Country}</div>
-								<Image
-									className="w-10 mx-4 rounded-full"
-									src={entry.Avatar}
-									alt={entry.Name}
-									width="100"
-									height="100"
-								/>
-								<div className="w-full mx-2">{entry.Name}</div>
-								<div className="w-fit mx-2">
-									<p className="w-max">{`${entry.RankData[
-										props.type
-									].Points.toLocaleString()} ${
-										entry.RankData[props.type].PointsName
-									}`}</p>
-								</div>
-							</div>
-							<hr />
-						</div>
-					);
-				})}
+			<div className="my-2 w-full text-center text-sm bg-[#323340] guild-container h-full p-5 rounded-xl">
+				<table className="w-full">
+					<thead>
+						<tr className="text-tertiary">
+							<th className="font-normal px-1">Rank</th>
+							<th className="font-normal px-1">Country</th>
+							<th className="font-normal px-1 invisible">Player</th>
+							<th className="font-normal px-1">Time Set</th>
+							<th className="font-normal px-1">HMD</th>
+							<th className="font-normal px-1">Score</th>
+							<th className="font-normal px-1">Misses</th>
+							<th className="font-normal px-1">Pauses</th>
+							<th className="font-normal px-1">Acc</th>
+							<th className="font-normal px-1">Points</th>
+						</tr>
+					</thead>
+					<tbody>
+						{props.entries.map((entry, index) => {
+							let playerURL =
+								entry.ScoreSaberID === "0"
+									? `https://www.beatleader.xyz/u/${entry.BeatLeaderID}`
+									: `https://scoresaber.com/u/${entry.ScoreSaberID}`;
+							return (
+								<tr
+									key={index}
+									className={`border-b-[1px] last:border-none border-white hover:bg-white hover:bg-opacity-10 transition-all duration-100 ease-in-out ${
+										entry.State % 2 === 0 && 'text-tertiary'
+									}`}
+								>
+									<td className="w-[3%] font-semibold">#{entry.Rank}</td>
+									<td className="w-auto">{entry.Country}</td>
+									<td>
+										<a
+											href={playerURL}
+											className="w-fit text-left flex items-center gap-3 hover:text-primary hover:underline underline-offset-2 decoration-2"
+										>
+											<Image
+												className="w-10 rounded-full my-2"
+												src={entry.Avatar}
+												alt={entry.Name}
+												width="100"
+												height="100"
+											/>
+											<p>{entry.Name}</p>
+										</a>
+									</td>
+									<td className="whitespace-nowrap px-2">
+										<ReactTimeAgo date={entry.UnixTimeSet * 1000} locale="en-US" />
+									</td>
+									<td className="whitespace-nowrap px-2">{getHMDName(entry.HMD)}</td>
+									<td className="px-2">{entry.ModifiedScore.toLocaleString()}</td>
+									<td>{entry.MissedNotes}</td>
+									<td>{entry.HasScoreStatistic ? entry.ScoreStatistic.PauseCount : '???'}</td>
+									<td>
+										{((entry.ModifiedScore / props.mapInfo.Difficulties[0].MaxScore) * 100).toFixed(
+											2
+										)}
+										%
+									</td>
+									<td className="px-2 font-medium">
+										<p>{`${entry.RankData[props.type].Points.toLocaleString()} ${
+											entry.RankData[props.type].PointsName
+										}`}</p>
+									</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</table>
 			</div>
 			<div className="flex">
 				<div className="w-1/2">
@@ -70,6 +113,31 @@ function Leaderboard(props) {
 			</div>
 		</div>
 	);
+}
+
+function getHMDName(hmd) {
+	switch (hmd) {
+		case 0:
+			return 'Unknown';
+		case 1:
+			return 'CV1';
+		case 2:
+			return 'Vive';
+		case 4:
+			return 'Vive Pro';
+		case 8:
+			return 'WMR';
+		case 16:
+			return 'Rift S';
+		case 32:
+			return 'Quest 1';
+		case 64:
+			return 'Index';
+		case 128:
+			return 'Cosmos';
+		case 256:
+			return 'Quest 2';
+	}
 }
 
 export default Leaderboard;
