@@ -2,25 +2,33 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Level from '../../../components/level';
 import Map from '../../../components/map';
+import Spinner from '../../../components/spinner';
 
 function Guild(props) {
 	const [selectedLevel, setSelectedLevel] = useState(props.levels[0].ID);
+	const [pageInfo, setPageInfo] = useState({});
+	const [page, setPage] = useState(1);
 	const [maps, setMaps] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const changeLevel = (id) => {
+		setPage(1);
 		setSelectedLevel(id);
 	};
 
 	useEffect(() => {
 		(async () => {
+			setIsLoading(true);
 			let mapData = await (
 				await fetch(
-					`https://api.guildsaber.com/maps/data/all?guild-id=${props.guild.ID}&level-id=${selectedLevel}`
+					`https://api.guildsaber.com/maps/data/all?guild-id=${props.guild.ID}&level-id=${selectedLevel}&page=${page}`
 				)
 			).json();
 			setMaps(mapData.RankedMaps);
+			setPageInfo(mapData.Metadata);
+			setIsLoading(false);
 		})();
-	}, [props.guild.ID, selectedLevel]);
+	}, [props.guild.ID, selectedLevel, page]);
 
 	return (
 		<>
@@ -69,37 +77,56 @@ function Guild(props) {
 					</div>
 				</div>
 				<div className="bg-[#323340] w-full h-full p-5 rounded-xl flex flex-col justify-between gap-3">
-					<div className="flex flex-col gap-3">
-						<div className="flex justify-between items-center">
-							<h3>Maps in {props.levels.find((l) => l.ID === selectedLevel).Name}</h3>
-							<div className="flex gap-3 items-center">
-								<p className="text-tertiary text-sm">*Value at 90%</p>
-								<button className="btn-tertiary">
-									<i className="fa-solid fa-list-music"></i>
-									<p>Playlist</p>
-								</button>
+					{isLoading ? (
+						<div className="w-full h-full flex items-center">
+							<Spinner />
+						</div>
+					) : (
+						<>
+							<div className="flex flex-col gap-3">
+								<div className="flex justify-between items-center">
+									<h3>
+										Maps in {props.levels.find((l) => l.ID === selectedLevel).Name}:{' '}
+										{pageInfo.TotalCount}
+									</h3>
+									<div className="flex gap-3 items-center">
+										<p className="text-tertiary text-sm">*Value at 90%</p>
+										<button className="btn-tertiary">
+											<i className="fa-solid fa-list-music"></i>
+											<p>Playlist</p>
+										</button>
+									</div>
+								</div>
+								<div className="guild-container">
+									{maps.map((map) => {
+										return <Map key={map.MapID} {...map} {...props.config} />;
+									})}
+								</div>
 							</div>
-						</div>
-						<div className="guild-container">
-							{maps.map((map) => {
-								return (
-									<Map
-										key={map.MapID}
-										{...map}
-										{...props.config}
-									/>
-								);
-							})}
-						</div>
-					</div>
+						</>
+					)}
 					<div className="flex gap-3 justify-center items-center">
-						<button className="btn-tertiary" disabled>
-							<i className="fa-solid fa-angle-left"></i>
-						</button>
-						<p>Page 1 / 10</p>
-						<button className="btn-tertiary">
-							<i className="fa-solid fa-angle-right"></i>
-						</button>
+						{page <= 1 ? (
+							<button className="btn-tertiary cursor-default" disabled>
+								<i className="fa-solid fa-angle-left"></i>
+							</button>
+						) : (
+							<button className="btn-tertiary" onClick={() => setPage((prev) => prev - 1)}>
+								<i className="fa-solid fa-angle-left"></i>
+							</button>
+						)}
+						<p>
+							Page {page} / {pageInfo.MaxPage}
+						</p>
+						{page >= pageInfo.MaxPage ? (
+							<button className="btn-tertiary cursor-default" disabled>
+								<i className="fa-solid fa-angle-right"></i>
+							</button>
+						) : (
+							<button className="btn-tertiary" onClick={() => setPage((prev) => prev + 1)}>
+								<i className="fa-solid fa-angle-right"></i>
+							</button>
+						)}
 					</div>
 				</div>
 			</div>
