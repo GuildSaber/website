@@ -4,7 +4,8 @@ import '../styles/globals.css';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 
-TimeAgo.addDefaultLocale(en);
+TimeAgo.setDefaultLocale(en.locale);
+TimeAgo.addLocale(en);
 
 function MyApp({ Component, pageProps }) {
 	return (
