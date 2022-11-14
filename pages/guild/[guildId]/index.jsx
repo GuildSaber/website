@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Level from '../../../components/level';
-import Map from '../../../components/map';
-import Spinner from '../../../components/spinner';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Level from "../../../components/level";
+import Map from "../../../components/map";
+import Spinner from "../../../components/spinner";
 
 function Guild(props) {
 	const [selectedLevel, setSelectedLevel] = useState(props.levels[0].ID);
@@ -11,7 +11,7 @@ function Guild(props) {
 	const [maps, setMaps] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const changeLevel = (id) => {
+	const changeLevel = id => {
 		setPage(1);
 		setSelectedLevel(id);
 	};
@@ -21,7 +21,7 @@ function Guild(props) {
 			setIsLoading(true);
 			let mapData = await (
 				await fetch(
-					`https://api.guildsaber.com/maps/data/all?guild-id=${props.guild.ID}&level-id=${selectedLevel}&page=${page}`
+					`https://api.guildsaber.com/rankedmaps/data/all?guild-id=${props.guild.ID}&level-id=${selectedLevel}&page=${page}`
 				)
 			).json();
 			setMaps(mapData.RankedMaps);
@@ -46,7 +46,9 @@ function Guild(props) {
 					</div>
 				) */}
 				<div className="flex items-center justify-between w-full">
-					<h1 className="text-2xl font-semibold">{props.guild.Name}</h1>
+					<h1 className="text-2xl font-semibold">
+						{props.guild.Name}
+					</h1>
 					<div className="flex gap-3">
 						<Link href={`/guild/${props.guild.ID}/edit`}>
 							<button className="btn-secondary">
@@ -61,13 +63,14 @@ function Guild(props) {
 				<div className="bg-[#323340] w-full h-full p-5 rounded-xl">
 					<h3 className="mb-3">Level</h3>
 					<div className="guild-container max-h-[43rem]">
-						{props.levels.map((level) => {
+						{props.levels.map(level => {
 							return (
 								<button
 									key={level.ID}
 									onClick={() => changeLevel(level.ID)}
 									className={`bg-[#424457] hover:bg-[#525674] rounded-md p-2 cursor-pointer text-left ${
-										level.ID === selectedLevel && 'bg-primary hover:bg-primary font-semibold'
+										level.ID === selectedLevel &&
+										"bg-primary hover:bg-primary font-semibold"
 									}`}
 								>
 									<Level {...level} />
@@ -86,11 +89,18 @@ function Guild(props) {
 							<div className="flex flex-col gap-3">
 								<div className="flex justify-between items-center">
 									<h3>
-										Maps in {props.levels.find((l) => l.ID === selectedLevel).Name}:{' '}
-										{pageInfo.TotalCount}
+										Maps in{" "}
+										{
+											props.levels.find(
+												l => l.ID === selectedLevel
+											).Name
+										}
+										: {pageInfo.TotalCount}
 									</h3>
 									<div className="flex gap-3 items-center">
-										<p className="text-tertiary text-sm">*Value at 90%</p>
+										<p className="text-tertiary text-sm">
+											*Value at 90%
+										</p>
 										<button className="btn-tertiary">
 											<i className="fa-solid fa-list-music"></i>
 											<p>Playlist</p>
@@ -98,8 +108,14 @@ function Guild(props) {
 									</div>
 								</div>
 								<div className="guild-container">
-									{maps.map((map) => {
-										return <Map key={map.MapID} {...map} {...props.config} />;
+									{maps.map(map => {
+										return (
+											<Map
+												key={map.MapID}
+												{...map}
+												{...props.config}
+											/>
+										);
 									})}
 								</div>
 							</div>
@@ -107,11 +123,17 @@ function Guild(props) {
 					)}
 					<div className="flex gap-3 justify-center items-center">
 						{page <= 1 ? (
-							<button className="btn-tertiary cursor-default" disabled>
+							<button
+								className="btn-tertiary cursor-default"
+								disabled
+							>
 								<i className="fa-solid fa-angle-left"></i>
 							</button>
 						) : (
-							<button className="btn-tertiary" onClick={() => setPage((prev) => prev - 1)}>
+							<button
+								className="btn-tertiary"
+								onClick={() => setPage(prev => prev - 1)}
+							>
 								<i className="fa-solid fa-angle-left"></i>
 							</button>
 						)}
@@ -119,11 +141,17 @@ function Guild(props) {
 							Page {page} / {pageInfo.MaxPage}
 						</p>
 						{page >= pageInfo.MaxPage ? (
-							<button className="btn-tertiary cursor-default" disabled>
+							<button
+								className="btn-tertiary cursor-default"
+								disabled
+							>
 								<i className="fa-solid fa-angle-right"></i>
 							</button>
 						) : (
-							<button className="btn-tertiary" onClick={() => setPage((prev) => prev + 1)}>
+							<button
+								className="btn-tertiary"
+								onClick={() => setPage(prev => prev + 1)}
+							>
 								<i className="fa-solid fa-angle-right"></i>
 							</button>
 						)}

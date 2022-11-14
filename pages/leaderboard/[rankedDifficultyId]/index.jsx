@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import Leaderboard from '../../../components/leaderboard';
+import { useState, useEffect } from "react";
+import Leaderboard from "../../../components/leaderboard";
 
 function LeaderboardPage(props) {
 	const [pageIndex, setPageIndex] = useState(1);
@@ -32,7 +32,7 @@ function LeaderboardPage(props) {
 		return;
 	}
 
-	props.leaderboardData.Leaderboards[0]?.RankData.map((type, index) => {
+	props.leaderboardData.Leaderboards[0]?.PointsData.map((type, index) => {
 		filters.push({
 			disabled: false,
 			name: type.PointsName,
@@ -48,8 +48,14 @@ function LeaderboardPage(props) {
 			entries={props.leaderboardData.Leaderboards}
 			mapInfo={props.mapData}
 			buttons={filters}
-			pageBack={{ pageBackFunction: PageBack, disabled: pageBackDisabled }}
-			pageForward={{ pageForwardFunction: PageForward, disabled: pageForwardDisabled }}
+			pageBack={{
+				pageBackFunction: PageBack,
+				disabled: pageBackDisabled,
+			}}
+			pageForward={{
+				pageForwardFunction: PageForward,
+				disabled: pageForwardDisabled,
+			}}
 		/>
 	);
 }
@@ -57,10 +63,12 @@ function LeaderboardPage(props) {
 export async function getServerSideProps(context) {
 	let ID = context.params.rankedDifficultyId;
 	let leaderboardData = await (
-		await fetch(`https://api.guildsaber.com/maps/leaderboard/by-id/${ID}/`)
+		await fetch(
+			`https://api.guildsaber.com/leaderboards/map/by-id/${ID}?page=1`
+		)
 	).json();
 	let mapData = await (
-		await fetch(`https://api.guildsaber.com/maps/data/by-id/${ID}`)
+		await fetch(`https://api.guildsaber.com/rankedmaps/data/by-id/${ID}`)
 	).json();
 
 	return {

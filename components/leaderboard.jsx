@@ -1,5 +1,5 @@
-import Image from 'next/future/image';
-import ReactTimeAgo from 'react-time-ago';
+import Image from "next/future/image";
+import ReactTimeAgo from "react-time-ago";
 
 function Leaderboard(props) {
 	return (
@@ -23,7 +23,9 @@ function Leaderboard(props) {
 						<tr className="text-tertiary">
 							<th className="font-normal px-1">Rank</th>
 							<th className="font-normal px-1">Country</th>
-							<th className="font-normal px-1 invisible">Player</th>
+							<th className="font-normal px-1 invisible">
+								Player
+							</th>
 							<th className="font-normal px-1">Time Set</th>
 							<th className="font-normal px-1">HMD</th>
 							<th className="font-normal px-1">Score</th>
@@ -43,10 +45,12 @@ function Leaderboard(props) {
 								<tr
 									key={index}
 									className={`border-b-[1px] last:border-none border-white hover:bg-white hover:bg-opacity-10 transition-all duration-100 ease-in-out ${
-										entry.State % 2 === 0 && 'text-tertiary'
+										entry.State % 2 === 0 && "text-tertiary"
 									}`}
 								>
-									<td className="w-[3%] font-semibold">#{entry.Rank}</td>
+									<td className="w-[3%] font-semibold">
+										#{entry.Rank}
+									</td>
 									<td className="w-auto">{entry.Country}</td>
 									<td>
 										<a
@@ -64,21 +68,38 @@ function Leaderboard(props) {
 										</a>
 									</td>
 									<td className="whitespace-nowrap px-2">
-										<ReactTimeAgo date={entry.UnixTimeSet * 1000} locale="en-US" />
+										<ReactTimeAgo
+											date={entry.UnixTimeSet * 1000}
+											locale="en-US"
+										/>
 									</td>
-									<td className="whitespace-nowrap px-2">{getHMDName(entry.HMD)}</td>
-									<td className="px-2">{entry.ModifiedScore.toLocaleString()}</td>
+									<td className="whitespace-nowrap px-2">
+										{getHMDName(entry.HMD)}
+									</td>
+									<td className="px-2">
+										{entry.ModifiedScore.toLocaleString()}
+									</td>
 									<td>{entry.MissedNotes}</td>
-									<td>{entry.HasScoreStatistic ? entry.ScoreStatistic.PauseCount : '???'}</td>
 									<td>
-										{((entry.ModifiedScore / props.mapInfo.Difficulties[0].MaxScore) * 100).toFixed(
-											2
-										)}
+										{entry.HasScoreStatistic
+											? entry.ScoreStatistic.PauseCount
+											: "???"}
+									</td>
+									<td>
+										{(
+											(entry.ModifiedScore /
+												props.mapInfo.Difficulties[0]
+													.MaxScore) *
+											100
+										).toFixed(2)}
 										%
 									</td>
 									<td className="px-2 font-medium">
-										<p>{`${entry.RankData[props.type].Points.toLocaleString()} ${
-											entry.RankData[props.type].PointsName
+										<p>{`${entry.PointsData[
+											props.type
+										].Points.toLocaleString()} ${
+											entry.PointsData[props.type]
+												.PointsName
 										}`}</p>
 									</td>
 								</tr>
@@ -96,7 +117,7 @@ function Leaderboard(props) {
 							props.pageBack.pageBackFunction();
 						}}
 					>
-						<p className="mx-1">{'<'}</p>
+						<p className="mx-1">{"<"}</p>
 					</button>
 				</div>
 				<div className="w-1/2 text-right">
@@ -107,7 +128,7 @@ function Leaderboard(props) {
 							props.pageForward.pageForwardFunction();
 						}}
 					>
-						<p className="mx-1">{'>'}</p>
+						<p className="mx-1">{">"}</p>
 					</button>
 				</div>
 			</div>
@@ -118,25 +139,25 @@ function Leaderboard(props) {
 function getHMDName(hmd) {
 	switch (hmd) {
 		case 0:
-			return 'Unknown';
+			return "Unknown";
 		case 1:
-			return 'CV1';
+			return "CV1";
 		case 2:
-			return 'Vive';
+			return "Vive";
 		case 4:
-			return 'Vive Pro';
+			return "Vive Pro";
 		case 8:
-			return 'WMR';
+			return "WMR";
 		case 16:
-			return 'Rift S';
+			return "Rift S";
 		case 32:
-			return 'Quest 1';
+			return "Quest 1";
 		case 64:
-			return 'Index';
+			return "Index";
 		case 128:
-			return 'Cosmos';
+			return "Cosmos";
 		case 256:
-			return 'Quest 2';
+			return "Quest 2";
 	}
 }
 

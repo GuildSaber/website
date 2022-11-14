@@ -1,9 +1,9 @@
-import Leaderboard from '../components/leaderboard';
-import useSWR from 'swr';
-import Spinner from '../components/spinner';
-import { useState } from 'react';
+import Leaderboard from "../components/leaderboard";
+import useSWR from "swr";
+import Spinner from "../components/spinner";
+import { useState } from "react";
 
-const fetcher = (url) => fetch(url).then((r) => r.json());
+const fetcher = url => fetch(url).then(r => r.json());
 
 function Dev() {
 	const [pageIndex, setPageIndex] = useState(1);
@@ -14,7 +14,7 @@ function Dev() {
 	let filters = [];
 
 	const { data, error } = useSWR(
-		`https://api.guildsaber.com/maps/leaderboard/by-hash/C4CCC41A43BB15F252B025F03BCE6F9C1DBBDBEB/9?guild-id=1&page=${pageIndex}`,
+		`https://api.guildsaber.com/leaderboards/map/by-hash/C4CCC41A43BB15F252B025F03BCE6F9C1DBBDBEB/9/Standard?guild-id=1&page=${pageIndex}`,
 		fetcher
 	);
 
@@ -48,7 +48,7 @@ function Dev() {
 		return;
 	}
 
-	data.Leaderboards[0].RankData.map((type, index) => {
+	data.Leaderboards[0].PointsData.map((type, index) => {
 		filters.push({
 			disabled: false,
 			name: type.PointsName,
@@ -61,10 +61,16 @@ function Dev() {
 	return (
 		<Leaderboard
 			type={filterType}
-			entries={data.Leaderboards}
+			entries={data}
 			buttons={filters}
-			pageBack={{ pageBackFunction: PageBack, disabled: pageBackDisabled }}
-			pageForward={{ pageForwardFunction: PageForward, disabled: pageForwardDisabled }}
+			pageBack={{
+				pageBackFunction: PageBack,
+				disabled: pageBackDisabled,
+			}}
+			pageForward={{
+				pageForwardFunction: PageForward,
+				disabled: pageForwardDisabled,
+			}}
 		/>
 	);
 }
